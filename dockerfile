@@ -13,10 +13,4 @@ COPY . .
 # Expose Flask port
 EXPOSE 5000
 
-# Set environment variable to run Flask
-ENV FLASK_APP=app.py
-
-# Run Flask app
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
-
 
