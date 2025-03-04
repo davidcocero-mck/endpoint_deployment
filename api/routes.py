@@ -1,5 +1,5 @@
 import os
-
+import pandas as pd
 from flask import Blueprint, jsonify, request
 
 api = Blueprint("api", __name__)
@@ -19,7 +19,7 @@ def predict():
     """
     try:
         data = request.get_json()
-        print(data)
+        data_proc = pd.DataFrame([data])
         result = {
             "input": {
                 "chat_history": [["user", "Hey"], ["assistant", "how can I help you?"]],
