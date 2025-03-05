@@ -10,6 +10,25 @@ def health_check():
     """Health check endpoint"""
     return jsonify({"status": "ok"}), 200
 
+@api.route("/follow_up", methods=["POST"])
+def follow_up():
+    """
+    API endpoint to get model predictions.
+    Expects JSON input with required fields.
+    """
+    try:
+        data = request.get_json()
+        data_proc = pd.DataFrame([data])
+        result = {"input": {
+                "question": "Cuál fue el EBITDA en Agosto de 2024 comparado con Julio?",
+                "response": "El EBITDA crecio en Agosto 9.4 Millones, un 5.6% más que el año pasado",
+            },
+            "llm_answer": "Como se desglosó por Negocio?"}
+        response = {"predictions": result}
+        return jsonify(response), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @api.route("/predict", methods=["POST"])
 def predict():
