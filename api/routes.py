@@ -19,11 +19,7 @@ def follow_up():
     try:
         data = request.get_json()
         data_proc = pd.DataFrame([data])
-        result = {"input": {
-                "question": "Cuál fue el EBITDA en Agosto de 2024 comparado con Julio?",
-                "response": "El EBITDA crecio en Agosto 9.4 Millones, un 5.6% más que el año pasado",
-            },
-            "llm_answer": "Como se desglosó por Negocio?"}
+        result = ["Como se desglosó por Negocio?","Como es la descomposicion por Segmento?"]
         response = {"predictions": result}
         return jsonify(response), 200
 
