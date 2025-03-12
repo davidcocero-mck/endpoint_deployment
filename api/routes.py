@@ -251,7 +251,7 @@ def reasoning_why():
                     "score": 0.0,
                 }
             ],
-            "chart": [{'type': 'N/A', 'code': 'N/A', 'id': 'mychart'}],
+            "chart": [{"type": "N/A", "code": "N/A", "id": "mychart"}],
             "complete": False,
         }
         response = {"predictions": result}
