@@ -254,7 +254,7 @@ def reasoning_why():
             "chart": [{"type": "N/A", "code": "N/A", "id": "mychart"}],
             "complete": False,
         }
-        response = {"predictions": result}
+    response = {"predictions": result}
     return jsonify(response), 200
 
 @api.route("/predict", methods=["POST"])
