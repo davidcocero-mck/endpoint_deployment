@@ -25,6 +25,102 @@ def follow_up():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+@api.route("/reasoning_why", methods=["POST"])
+def reasoning_why():
+    data = request.get_json()
+    data_proc = pd.DataFrame([data])
+    response = {"predictions": """<table id="data-table">
+    <thead>
+      <tr>
+        <th>Indicador</th>
+        <th>Valor</th>
+        <th>Cambio</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Top level row with children -->
+      <tr data-level="0">
+        <td>
+          <span class="toggle-icon"></span>
+          <span class="cell-text">Ingresos</span>
+        </td>
+        <td>$999</td>
+        <td>+9M (9%)</td>
+      </tr>
+      <!-- Child row with children -->
+      <tr data-level="1">
+        <td>
+          <span class="toggle-icon"></span>
+          <span class="cell-text">Servicios</span>
+        </td>
+        <td>$999</td>
+        <td>+9M (9%)</td>
+      </tr>
+      <!-- Grandchild rows -->
+      <tr data-level="2">
+        <td>
+          <!-- No toggle icon for a row with no children -->
+          <span class="toggle-icon empty"></span>
+          <span class="cell-text">Hogar</span>
+        </td>
+        <td>$999</td>
+        <td>+9M (9%)</td>
+      </tr>
+      <tr data-level="2">
+        <td>
+          <span class="toggle-icon empty"></span>
+          <span class="cell-text">Móvil</span>
+        </td>
+        <td>$999</td>
+        <td>+9M (9%)</td>
+      </tr>
+      <!-- Sibling of Servicios -->
+      <tr data-level="1">
+        <td>
+          <span class="toggle-icon empty"></span>
+          <span class="cell-text">Equipos</span>
+        </td>
+        <td>$999</td>
+        <td>+9M (9%)</td>
+      </tr>
+      <!-- Another top-level row with children -->
+      <tr data-level="0">
+        <td>
+          <span class="toggle-icon"></span>
+          <span class="cell-text">Costos</span>
+        </td>
+        <td>$999</td>
+        <td>+9M (9%)</td>
+      </tr>
+      <!-- Child rows -->
+      <tr data-level="1">
+        <td>
+          <span class="toggle-icon empty"></span>
+          <span class="cell-text">Operativo</span>
+        </td>
+        <td>$999</td>
+        <td>+9M (9%)</td>
+      </tr>
+      <tr data-level="1">
+        <td>
+          <span class="toggle-icon empty"></span>
+          <span class="cell-text">Comercial</span>
+        </td>
+        <td>$999</td>
+        <td>+9M (9%)</td>
+      </tr>
+      <tr data-level="1">
+        <td>
+          <span class="toggle-icon empty"></span>
+          <span class="cell-text">Admin</span>
+        </td>
+        <td>$999</td>
+        <td>+9M (9%)</td>
+      </tr>
+    </tbody>
+  </table>
+	<script src="script.js"></script>"""
+    return jsonify(response), 200
 
 @api.route("/predict", methods=["POST"])
 def predict():
