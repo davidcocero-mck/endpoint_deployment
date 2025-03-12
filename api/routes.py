@@ -119,7 +119,7 @@ def reasoning_why():
       </tr>
     </tbody>
   </table>
-	<script src="script.js"></script>"""
+	<script src="script.js"></script>"""}
     return jsonify(response), 200
 
 @api.route("/predict", methods=["POST"])
