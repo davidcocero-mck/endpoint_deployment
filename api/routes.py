@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import uuid
 from flask import Blueprint, jsonify, request
 
 api = Blueprint("api", __name__)
@@ -349,7 +350,7 @@ def predict():
                 {
                     "type": "bar",
                     "code": '{"type": "bar", "data": {"labels": ["Julio 2024", "Agosto 2024"], "datasets": [{"data": [41982068, 44919508], "backgroundColor": "#4472c4", "borderColor": "#4472c4", "borderWidth": 1, "barPercentage": 0.65, "borderRadius": 2}]}, "options": {"indexAxis": "x", "responsive": true, "maintainAspectRatio": false, "plugins": {"legend": {"display": false}}, "scales": {"y": {"beginAtZero": true, "title": {"display": true, "text": "CLP", "font": {"size": 14}}, "border": {"display": false, "dash": [10, 10], "dashOffset": 10}, "grid": {"color": "#00000025"}, "ticks": {"padding": 24}}, "x": {"display": true, "grid": {"display": false}}}}}',
-                    "id": "69071060-4fa3-416e-95b6-58c00ccf11d4",
+                    "id": str(uuid.uuid4()),
                 }
             ],
             "complete": False,
