@@ -360,7 +360,7 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 @api.route("/reasoning_why_debug", methods=["POST"])
-def reasoning_why():
+def reasoning_why_debug():
     data = request.get_json()
     data_proc = pd.DataFrame([data])
     result = {
