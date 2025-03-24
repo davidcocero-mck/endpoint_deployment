@@ -1,8 +1,10 @@
 import os
-import pandas as pd
-import uuid
-from flask import Blueprint, jsonify, request
 import time
+import uuid
+
+import pandas as pd
+from flask import Blueprint, jsonify, request
+
 api = Blueprint("api", __name__)
 
 
@@ -10,6 +12,7 @@ api = Blueprint("api", __name__)
 def health_check():
     """Health check endpoint"""
     return jsonify({"status": "ok"}), 200
+
 
 @api.route("/follow_up", methods=["POST"])
 def follow_up():
@@ -20,22 +23,27 @@ def follow_up():
     try:
         data = request.get_json()
         data_proc = pd.DataFrame([data])
-        result = ["Como se desglosó por Negocio?","Como es la descomposicion por Segmento?"]
+        result = [
+            "Como se desglosó por Negocio?",
+            "Como es la descomposicion por Segmento?",
+        ]
         response = {"predictions": result}
         return jsonify(response), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
 @api.route("/reasoning_why", methods=["POST"])
 def reasoning_why():
     data = request.get_json()
     data_proc = pd.DataFrame([data])
     result = {
-            "input": {
-                "chat_history": [["user", "Hey"], ["assistant", "how can I help you?"]],
-                "chat_input": "Cuál fue el EBITDA en Agosto de 2024 comparado con Julio?",
-            },
-            "llm_answer": """<body><table id="data-table">
+        "input": {
+            "chat_history": [["user", "Hey"], ["assistant", "how can I help you?"]],
+            "chat_input": "Cuál fue el EBITDA en Agosto de 2024 comparado con Julio?",
+        },
+        "llm_answer": """<body><table id="data-table">
                 <thead>
                     <tr>
                         <th>Indicador</th>
@@ -179,84 +187,85 @@ def reasoning_why():
 
                 </tbody>
             </table><script src="script.js"></script> </body>""",
-            "intermediate_results": [
-                {
-                    "type": "parsed_question",
-                    "format": "markdown",
-                    "value": "¿Cuál fue el EBITDA en agosto de 2024 comparado con julio de 2024?",
-                    "name": "parsed_question_1",
-                    "show": False,
-                },
-                {
-                    "type": "parsed_question",
-                    "format": "markdown",
-                    "value": "¿Cuál fue el EBITDA en agosto de 2024 comparado con julio de 2024?",
-                    "name": "parsed_question_2",
-                    "show": False,
-                },
-                {
-                    "type": "product_mapping",
-                    "format": "json",
-                    "value": "{}",
-                    "name": "product_mapping",
-                    "show": False,
-                },
-                {
-                    "type": "entity_recognition",
-                    "format": "json",
-                    "value": '{"completeness": "True", "response": "La pregunta es espec\\u00edfica y tiene toda la informaci\\u00f3n necesaria para ser respondida, ya que menciona el EBITDA  en dos meses espec\\u00edficos: julio y agosto de 2024.", "workflow": "what"}',
-                    "name": "entity_recognition",
-                    "show": False,
-                },
-                {
-                    "type": "sql_queries",
-                    "format": "sql",
-                    "value": "{\"query_1\": \"SELECT \\n  SUM(CASE WHEN Year = 2024 AND Month = 8 THEN value END) AS EBITDA_August_2024,\\n  SUM(CASE WHEN Year = 2024 AND Month = 7 THEN value END) AS EBITDA_July_2024\\nFROM _nmc\\nWHERE LINEA_N1 = 'ebitda' AND Type = 'real';\"}",
-                    "name": "SQL queries",
-                    "show": True,
-                },
-                {
-                    "type": "intermediate_executions",
-                    "format": "markdown",
-                    "value": "[(44919508.0, 41982068.0)]",
-                    "name": "SQL queries",
-                    "show": True,
-                },
-                {
-                    "type": "response",
-                    "format": "markdown",
-                    "value": "**Comparación del EBITDA de  en 2024:**\n\n- **Agosto 2024: CLP 44,919,508**\n- **Julio 2024: CLP 41,982,068**\n\n**Diferencia:**\n- El EBITDA en agosto de 2024 fue **7.0%** mayor que en julio de 2024.",
-                    "name": "SQL Agent response",
-                    "show": False,
-                },
-            ],
-            "prompt": "N/A",
-            "guardrails": [{"flagged": False, "reason": "N/A", "type": "N/A"}],
-            "sources": [
-                {
-                    "name": "",
-                    "content": "",
-                    "link": "",
-                    "description": "",
-                    "show": False,
-                    "score": 0.0,
-                }
-            ],
-            "resources": [
-                {
-                    "name": "",
-                    "content": "",
-                    "link": "",
-                    "description": "",
-                    "show": False,
-                    "score": 0.0,
-                }
-            ],
-            "chart": [{"type": "N/A", "code": "N/A", "id": "mychart"}],
-            "complete": False,
-        }
+        "intermediate_results": [
+            {
+                "type": "parsed_question",
+                "format": "markdown",
+                "value": "¿Cuál fue el EBITDA en agosto de 2024 comparado con julio de 2024?",
+                "name": "parsed_question_1",
+                "show": False,
+            },
+            {
+                "type": "parsed_question",
+                "format": "markdown",
+                "value": "¿Cuál fue el EBITDA en agosto de 2024 comparado con julio de 2024?",
+                "name": "parsed_question_2",
+                "show": False,
+            },
+            {
+                "type": "product_mapping",
+                "format": "json",
+                "value": "{}",
+                "name": "product_mapping",
+                "show": False,
+            },
+            {
+                "type": "entity_recognition",
+                "format": "json",
+                "value": '{"completeness": "True", "response": "La pregunta es espec\\u00edfica y tiene toda la informaci\\u00f3n necesaria para ser respondida, ya que menciona el EBITDA  en dos meses espec\\u00edficos: julio y agosto de 2024.", "workflow": "what"}',
+                "name": "entity_recognition",
+                "show": False,
+            },
+            {
+                "type": "sql_queries",
+                "format": "sql",
+                "value": "{\"query_1\": \"SELECT \\n  SUM(CASE WHEN Year = 2024 AND Month = 8 THEN value END) AS EBITDA_August_2024,\\n  SUM(CASE WHEN Year = 2024 AND Month = 7 THEN value END) AS EBITDA_July_2024\\nFROM _nmc\\nWHERE LINEA_N1 = 'ebitda' AND Type = 'real';\"}",
+                "name": "SQL queries",
+                "show": True,
+            },
+            {
+                "type": "intermediate_executions",
+                "format": "markdown",
+                "value": "[(44919508.0, 41982068.0)]",
+                "name": "SQL queries",
+                "show": True,
+            },
+            {
+                "type": "response",
+                "format": "markdown",
+                "value": "**Comparación del EBITDA de  en 2024:**\n\n- **Agosto 2024: CLP 44,919,508**\n- **Julio 2024: CLP 41,982,068**\n\n**Diferencia:**\n- El EBITDA en agosto de 2024 fue **7.0%** mayor que en julio de 2024.",
+                "name": "SQL Agent response",
+                "show": False,
+            },
+        ],
+        "prompt": "N/A",
+        "guardrails": [{"flagged": False, "reason": "N/A", "type": "N/A"}],
+        "sources": [
+            {
+                "name": "",
+                "content": "",
+                "link": "",
+                "description": "",
+                "show": False,
+                "score": 0.0,
+            }
+        ],
+        "resources": [
+            {
+                "name": "",
+                "content": "",
+                "link": "",
+                "description": "",
+                "show": False,
+                "score": 0.0,
+            }
+        ],
+        "chart": [{"type": "N/A", "code": "N/A", "id": "mychart"}],
+        "complete": False,
+    }
     response = {"predictions": result}
     return jsonify(response), 200
+
 
 @api.route("/predict", methods=["POST"])
 def predict():
@@ -267,7 +276,7 @@ def predict():
     try:
         data = request.get_json()
         data_proc = pd.DataFrame([data])
-	time.sleep(10)
+        time.sleep(10)
         result = {
             "input": {
                 "chat_history": [["user", "Hey"], ["assistant", "how can I help you?"]],
@@ -361,16 +370,18 @@ def predict():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
 @api.route("/reasoning_why_debug", methods=["POST"])
 def reasoning_why_debug():
     data = request.get_json()
     data_proc = pd.DataFrame([data])
     result = {
-            "input": {
-                "chat_history": [["user", "Hey"], ["assistant", "how can I help you?"]],
-                "chat_input": "Cuál fue el EBITDA en Agosto de 2024 comparado con Julio?",
-            },
-            "llm_answer": """<body><h2>Comparación de las Adiciones Netas de M2M en 2024 con el Plan</h2>
+        "input": {
+            "chat_history": [["user", "Hey"], ["assistant", "how can I help you?"]],
+            "chat_input": "Cuál fue el EBITDA en Agosto de 2024 comparado con Julio?",
+        },
+        "llm_answer": """<body><h2>Comparación de las Adiciones Netas de M2M en 2024 con el Plan</h2>
 El <b>adiciones netas M2M</b> decreció un <span class="red">-45.8%</span> (-167,839 usuarios) respecto al plan principalmente a causa de:
 <ul>
     <li>Una disminución en las <span class="driver">ventas brutas</span> de <span class="red">-28.5%</span> (-141,129.9 usuarios), lo cual se debe completamente a la caída en las <span class="driver">ventas brutas excluyendo portabilidad</span> de <span class="red">-28.5%</span> (-141,129.9 usuarios).</li>
@@ -441,83 +452,81 @@ El <b>adiciones netas M2M</b> decreció un <span class="red">-45.8%</span> (-167
             </table>
             <script src='script.js'></script>
         </body>""",
-            "intermediate_results": [
-                {
-                    "type": "parsed_question",
-                    "format": "markdown",
-                    "value": "¿Cuál fue el EBITDA en agosto de 2024 comparado con julio de 2024?",
-                    "name": "parsed_question_1",
-                    "show": False,
-                },
-                {
-                    "type": "parsed_question",
-                    "format": "markdown",
-                    "value": "¿Cuál fue el EBITDA en agosto de 2024 comparado con julio de 2024?",
-                    "name": "parsed_question_2",
-                    "show": False,
-                },
-                {
-                    "type": "product_mapping",
-                    "format": "json",
-                    "value": "{}",
-                    "name": "product_mapping",
-                    "show": False,
-                },
-                {
-                    "type": "entity_recognition",
-                    "format": "json",
-                    "value": '{"completeness": "True", "response": "La pregunta es espec\\u00edfica y tiene toda la informaci\\u00f3n necesaria para ser respondida, ya que menciona el EBITDA  en dos meses espec\\u00edficos: julio y agosto de 2024.", "workflow": "what"}',
-                    "name": "entity_recognition",
-                    "show": False,
-                },
-                {
-                    "type": "sql_queries",
-                    "format": "sql",
-                    "value": "{\"query_1\": \"SELECT \\n  SUM(CASE WHEN Year = 2024 AND Month = 8 THEN value END) AS EBITDA_August_2024,\\n  SUM(CASE WHEN Year = 2024 AND Month = 7 THEN value END) AS EBITDA_July_2024\\nFROM _nmc\\nWHERE LINEA_N1 = 'ebitda' AND Type = 'real';\"}",
-                    "name": "SQL queries",
-                    "show": True,
-                },
-                {
-                    "type": "intermediate_executions",
-                    "format": "markdown",
-                    "value": "[(44919508.0, 41982068.0)]",
-                    "name": "SQL queries",
-                    "show": True,
-                },
-                {
-                    "type": "response",
-                    "format": "markdown",
-                    "value": "**Comparación del EBITDA de  en 2024:**\n\n- **Agosto 2024: CLP 44,919,508**\n- **Julio 2024: CLP 41,982,068**\n\n**Diferencia:**\n- El EBITDA en agosto de 2024 fue **7.0%** mayor que en julio de 2024.",
-                    "name": "SQL Agent response",
-                    "show": False,
-                },
-            ],
-            "prompt": "N/A",
-            "guardrails": [{"flagged": False, "reason": "N/A", "type": "N/A"}],
-            "sources": [
-                {
-                    "name": "",
-                    "content": "",
-                    "link": "",
-                    "description": "",
-                    "show": False,
-                    "score": 0.0,
-                }
-            ],
-            "resources": [
-                {
-                    "name": "",
-                    "content": "",
-                    "link": "",
-                    "description": "",
-                    "show": False,
-                    "score": 0.0,
-                }
-            ],
-            "chart": [{"type": "N/A", "code": "N/A", "id": "mychart"}],
-            "complete": False,
-        }
+        "intermediate_results": [
+            {
+                "type": "parsed_question",
+                "format": "markdown",
+                "value": "¿Cuál fue el EBITDA en agosto de 2024 comparado con julio de 2024?",
+                "name": "parsed_question_1",
+                "show": False,
+            },
+            {
+                "type": "parsed_question",
+                "format": "markdown",
+                "value": "¿Cuál fue el EBITDA en agosto de 2024 comparado con julio de 2024?",
+                "name": "parsed_question_2",
+                "show": False,
+            },
+            {
+                "type": "product_mapping",
+                "format": "json",
+                "value": "{}",
+                "name": "product_mapping",
+                "show": False,
+            },
+            {
+                "type": "entity_recognition",
+                "format": "json",
+                "value": '{"completeness": "True", "response": "La pregunta es espec\\u00edfica y tiene toda la informaci\\u00f3n necesaria para ser respondida, ya que menciona el EBITDA  en dos meses espec\\u00edficos: julio y agosto de 2024.", "workflow": "what"}',
+                "name": "entity_recognition",
+                "show": False,
+            },
+            {
+                "type": "sql_queries",
+                "format": "sql",
+                "value": "{\"query_1\": \"SELECT \\n  SUM(CASE WHEN Year = 2024 AND Month = 8 THEN value END) AS EBITDA_August_2024,\\n  SUM(CASE WHEN Year = 2024 AND Month = 7 THEN value END) AS EBITDA_July_2024\\nFROM _nmc\\nWHERE LINEA_N1 = 'ebitda' AND Type = 'real';\"}",
+                "name": "SQL queries",
+                "show": True,
+            },
+            {
+                "type": "intermediate_executions",
+                "format": "markdown",
+                "value": "[(44919508.0, 41982068.0)]",
+                "name": "SQL queries",
+                "show": True,
+            },
+            {
+                "type": "response",
+                "format": "markdown",
+                "value": "**Comparación del EBITDA de  en 2024:**\n\n- **Agosto 2024: CLP 44,919,508**\n- **Julio 2024: CLP 41,982,068**\n\n**Diferencia:**\n- El EBITDA en agosto de 2024 fue **7.0%** mayor que en julio de 2024.",
+                "name": "SQL Agent response",
+                "show": False,
+            },
+        ],
+        "prompt": "N/A",
+        "guardrails": [{"flagged": False, "reason": "N/A", "type": "N/A"}],
+        "sources": [
+            {
+                "name": "",
+                "content": "",
+                "link": "",
+                "description": "",
+                "show": False,
+                "score": 0.0,
+            }
+        ],
+        "resources": [
+            {
+                "name": "",
+                "content": "",
+                "link": "",
+                "description": "",
+                "show": False,
+                "score": 0.0,
+            }
+        ],
+        "chart": [{"type": "N/A", "code": "N/A", "id": "mychart"}],
+        "complete": False,
+    }
     response = {"predictions": result}
     return jsonify(response), 200
-
-
