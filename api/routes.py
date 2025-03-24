@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import uuid
 from flask import Blueprint, jsonify, request
-
+import time
 api = Blueprint("api", __name__)
 
 
@@ -267,6 +267,7 @@ def predict():
     try:
         data = request.get_json()
         data_proc = pd.DataFrame([data])
+	time.sleep(10)
         result = {
             "input": {
                 "chat_history": [["user", "Hey"], ["assistant", "how can I help you?"]],
